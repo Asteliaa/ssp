@@ -13,3 +13,10 @@ BenchmarkDotNet.Artifacts/
 # OS
 Thumbs.db
 .DS_Store
+
+# Temp / archives
+*.zip
+*.7z
+~$*
+__pycache__/
+*.before-*

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <!-- CS0067: события из методички только подписываются; CS0105: повторные using в тексте методички. -->
+    <NoWarn>CS0067;CS0105</NoWarn>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <AssemblyName>MemoryLab</AssemblyName>
+    <StartupObject>MemoryLab.Program</StartupObject>
+  </PropertyGroup>
+
+</Project>

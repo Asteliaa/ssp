@@ -1,0 +1,210 @@
+========================================
+КЛИЕНТ ЛОКАЛЬНОЙ LLM OLLAMA
+========================================
+
+✓ Подключено к Ollama. Доступные модели:
+  - llama2:7b
+  - deepseek-coder:6.7b
+  - codellama:7b
+  - llama3.2:1b
+
+=== ЗАДАНИЕ A: Генерация кода ===
+
+Промпт: Напишите C# метод для поиска максимального элемента в массиве
+
+Ответ:
+```
+using System;
+
+class Program
+{
+    static int FindMax(int[] arr)
+    {
+        int max = int.MinValue;
+        foreach (int element in arr)
+        {
+            if (element > max)
+            {
+                max = element;
+            }
+        }
+        return max;
+    }
+}
+```
+Обратите внимание, что мы используем `int.MinValue` для инициализации переменной `max`, поскольку мы знаем, что максимальный элемент в массиве может быть как минимум 0. Это позволяет нам легко найти максимальный элемент в массиве, если он есть.
+
+Кроме того, мы используем `foreach` цикл для прохода по всем элементам массива, а не `for` цикл, потому что `foreach` цикл является более эффективным и чистым способом, чем `for` цикл, поскольку он не требует явного указания индекса массива.
+
+Наконец, мы возвращаем максимальный элемент в виде целого числа с помощью `return` оператора.
+
+Комментарии:
+
+* `using System;` - это директива `using` для импорта пространства имен `System`.
+* `class Program` - это декларация класса с именем `Program`.
+* `static int FindMax(int[] arr)` - это декларация статического метода с именем `FindMax`, который принимает массив целых чисел `int[]` в качестве параметра.
+* `int max = int.MinValue;` - это инициализация переменной `max` с помощью значения `int.MinValue`, чтобы мы могли легко найти максимальный элемент в массиве, если он есть.
+* `foreach (int element in arr)` - это цикл `foreach` для прохода по всем элементам массива `arr`.
+* `if (element > max)` - это условное выражение, которое проверяет, является ли текущий элемент массива большим, чем максимальный элемент, который мы ищем. Если это так, то мы сохраняем текущий элемент как максимальный.
+* `max = element;` - это оператор присваивания, который сохраняет текущий элемент массива как максимальный элемент.
+* `return max;` - это оператор возврата, который возвращает максимальный элемент в виде целого числа.
+
+В целом, этот код является чистым и эффективным способом найти максимальный элемент в массиве.
+
+=== ЗАДАНИЕ B: Агент-помощник по коду ===
+
+Пользователь: Создайте C# класс, реализующий потокобезопасный паттерн Singleton
+
+Ассистент:
+```
+using System;
+
+namespace MySingleton
+{
+    public sealed class MySingleton
+    {
+        private static readonly MySingleton _instance = new MySingleton();
+
+        private MySingleton()
+        {
+        }
+
+        public static MySingleton Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+
+        public void DoSomething()
+        {
+            Console.WriteLine("I'm a singleton!");
+        }
+    }
+}
+```
+This code creates a C# class that implements the Singleton pattern. The class is marked as sealed to prevent inheritance. The constructor is private to prevent instances from being created outside of the class. The `Instance` property is implemented as a static readonly field, which ensures that there is only one instance of the class and it is created only once. The `DoSomething` method is a simple example of a method that can be called on the singleton instance.
+
+It is important to note that this implementation is not thread-safe, if multiple threads are accessing the singleton instance simultaneously, there is a risk of race conditions. To make the implementation thread-safe, a lock object can be added to the `Instance` property to ensure that only one thread can access the instance at a time.
+
+```
+using System;
+
+namespace MySingleton
+{
+    public sealed class MySingleton
+    {
+        private static readonly MySingleton _instance = new MySingleton();
+        private static readonly object _lock = new object();
+
+        private MySingleton()
+        {
+        }
+
+        public static MySingleton Instance
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return _instance;
+                }
+            }
+        }
+
+        public void DoSomething()
+        {
+            Console.WriteLine("I'm a singleton!");
+        }
+    }
+}
+```
+This implementation adds a lock object to the `Instance` property, which ensures that only one thread can access the instance at a time. This prevents race conditions and ensures that the singleton is used in a thread-safe manner.
+
+It is also important to note that there are other ways to implement the Singleton pattern in C#, such as using a static class or a static method. However, the above implementation is one of the most common and widely used ways to implement the Singleton pattern in C#.
+
+=== ЗАДАНИЕ C: Потоковая передача с системным промптом ===
+
+Код для проверки:
+public int CalculateAverage(int[] numbers) {
+        int sum = 0;
+        for (int i = 0; i <= numbers.Length; i++) {
+            sum += numbers[i];
+        }
+        return sum / numbers.Length;
+    }
+
+Ревью:
+Ваш код имеет несколько ошибок:
+
+1. Ошибочное сравнение: в вашем цикле for используется `i <= numbers.Length`, что может привести к IndexOutOfRangeException, если вы попытаетесь обратиться к элементу вне массива. Вы должны использовать `i < numbers.Length`.
+
+2. Беззнаковые целые числа: Если ваш массив состоит только из отрицательных чисел, то вы можете столкнуться с делением на 0, если `numbers` содержит значения от -1 до 1. Для целочисленного результата вы можете использовать `int` вместо `double`.
+
+3. Необоснованное уменьшение: Если `numbers` состоит из одного элемента, то вы не произведете никаких действий, и функция вернет 0, которое некорректно, если вы хотите вернуть среднее арифметическое.
+
+4. Необработанное исключение: Если `numbers` будет null, вы получите `NullReferenceException`.
+
+5. Непонятное условие: Вы возвращаете целое число, а похоже, вы хотите получить среднее арифметическое с плавающей запятой.
+
+6. Не используется 'numbers' в условии: Вы не используете 'numbers' в условии, если он null.
+
+Ваш код может выглядеть так:
+
+```C#
+public double CalculateAverage(int[] numbers)
+{
+    if (numbers == null || numbers.Length == 0)
+    {
+        throw new ArgumentException("Array is null or empty.");
+    }
+
+    int sum = 0;
+
+    for (int i = 0; i < numbers.Length; i++)
+    {
+        sum += numbers[i];
+    }
+
+    return (double)sum / numbers.Length;
+}
+```
+
+Теперь функция будет возвращать среднее арифметическое чисел в массиве, а также выбросит `ArgumentException` в случае, если был передан null-массив.
+
+Последний ваш вопрос - возврат целочисленного результата в случае, если вы хотите получить среднее арифметическое, вы можете возвращать `int`, если вы уверены, что среднее арифметическое не будет больше `int.MaxValue`. Однако, это может негативно сказаться на читаемости кода.
+
+=== ЗАДАНИЕ D: Конвейер агентов ===
+
+Пользователь: Напишите C# метод для вычисления последовательности Фибоначчи с использованием рекурсии.
+Включите правильную обработку ошибок и документацию.
+
+Агент 1/2 обрабатывает...
+Unhandled exception. System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 300 seconds elapsing.
+ ---> System.TimeoutException: The operation was canceled.
+ ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+ ---> System.IO.IOException: Unable to read data from the transport connection: Операция ввода/вывода была прервана из-за завершения потока команд или по запросу приложения..
+ ---> System.Net.Sockets.SocketException (995): Операция ввода/вывода была прервана из-за завершения потока команд или по запросу приложения.
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+   at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   --- End of inner exception stack trace ---
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at OllamaClient.OllamaApiClient.GenerateAsync(String model, String prompt, String systemPrompt, CancellationToken cancellationToken) in D:\Unik\SSP\work\lab-8-ollama\OllamaClient\OllamaApiClient.cs:line 60
+   at OllamaClient.Agents.CodeAssistantAgent.ProcessAsync(String input) in D:\Unik\SSP\work\lab-8-ollama\OllamaClient\Agents\Agent.cs:line 50
+   at OllamaClient.Agents.AgentPipeline.ProcessAsync(String input) in D:\Unik\SSP\work\lab-8-ollama\OllamaClient\Agents\AgentPipeline.cs:line 17
+   at Program.Main(String[] args) in D:\Unik\SSP\work\lab-8-ollama\OllamaClient\Program.cs:line 156
+   at Program.<Main>(String[] args)
+
+real	10m18.349s
+user	0m0.015s
+sys	0m0.000s

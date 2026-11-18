@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Задание 3 (основное)": {
+      "commandName": "Project"
+    },
+    "Доп. задание (со звуком)": {
+      "commandName": "Project",
+      "commandLineArgs": "--dop"
+    },
+    "Доп. задание (без звука)": {
+      "commandName": "Project",
+      "commandLineArgs": "--dop --silent"
+    }
+  }
+}

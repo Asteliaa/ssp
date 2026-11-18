@@ -1,0 +1,26 @@
+📦 Using model: llama3.2:1b
+
+🔢 Factorial Calculator
+======================
+
+Enter a number to calculate factorial: 
+🧮 Calculating 5! ...
+
+🤖 Result:
+
+To calculate the factorial of 5, we can use the formula:
+
+n! = n × (n-1) × (n-2) × ... × 2 × 1
+
+Here are the step-by-step calculations:
+
+5! = 5 × 4 × 3 × 2 × 1
+= 120
+
+The final result is: 120
+
+In scientific notation, 120 can be expressed as:
+
+1.20 × 10^2
+
+✅ Done!
