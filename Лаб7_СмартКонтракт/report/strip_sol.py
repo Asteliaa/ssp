@@ -1,7 +1,7 @@
 """Текст контрактов, написанных в работе, без комментариев и пустых строк (для приложения)."""
 import re
 from pathlib import Path
-SOL = Path(r'D:\Unik\SSP\Лаб7_СмартКонтракт\Lab7.sol')
+SOL = Path(r'D:\Unik\SSP\Лаб7_СмартКонтракт')
 
 def student_code():
     lines = SOL.read_text(encoding='utf-8').split('\n')
@@ -24,7 +24,7 @@ if __name__ == '__main__':
         if len(x) >= 60: print(len(x), x)
 
 
-BREAKS = (', ', ') ', ' && ', ' || ', ' public ', ' external ', ' internal ', ' returns ', ' onlyAdmin ', ' == ', ' = ')
+BREAKS = (', ', ') ', ' + ', ' && ', ' || ', ' public ', ' external ', ' internal ', ' returns ', ' onlyAdmin ', ' == ', ' = ')
 
 
 def wrap(line, limit=59):
@@ -36,7 +36,7 @@ def wrap(line, limit=59):
     for b in BREAKS:
         k = line.find(b, ind + 8)
         while k != -1:
-            keep = {', ': 1, ') ': 1, ' && ': 3, ' || ': 3, ' = ': 2}.get(b, 0)
+            keep = {', ': 1, ') ': 1, ' + ': 2, ' && ': 3, ' || ': 3, ' = ': 2}.get(b, 0)
             cut = k + keep
             if cut <= limit and (best is None or cut > best):
                 best = cut
@@ -57,7 +57,9 @@ def student_code_wrapped():
 
 def contracts(names):
     """Код указанных контрактов без комментариев и пустых строк."""
-    lines = SOL.read_text(encoding='utf-8').split('\n')
+    lines = []
+    for f in ('StudentRegistry.sol', 'BookRegistry.sol', 'EmployeeRegistry.sol'):
+        lines += (SOL / f).read_text(encoding='utf-8').split('\n')
     out, take = [], False
     for l in lines:
         m = re.match(r'contract (\w+)', l)
@@ -97,6 +99,6 @@ def join_headers(lines, limit=84):
             out.extend(wrap(acc, limit))
             i = j
             continue
-        out.append(cur)
+        out.extend(wrap(cur, limit))
         i += 1
     return out

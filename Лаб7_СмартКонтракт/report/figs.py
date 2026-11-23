@@ -89,9 +89,10 @@ def inner(im):
 
 
 FIGS = {
-    'compile': lambda: crop_full('fig_compile', (0, 40, 900, 520)),
+    'compile': lambda: side(crop_full('fig_compile_files', (50, 40, 370, 455)),
+                            crop_full('fig_compile', (50, 40, 1000, 520))),
     'deploy': lambda: stack([inner(side(crop_full('fig_deploy_form', (50, 40, 450, 730)),
-                                        crop_full('fig_deployed', (50, 40, 450, 620)))),
+                                        crop_full('fig_deployed', (50, 67, 450, 647)))),
                              crop_full('fig_deployed', (470, 772, 1300, 810))]),
     'a_main': lambda: side(inner(stack([load('a_univ'), load('a_get1')])),
                            inner(stack([load('a_count3'), load('a_all3')]))),
